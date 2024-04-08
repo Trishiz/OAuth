@@ -1,0 +1,31 @@
+server:
+    port: 8081
+
+logging:
+    level:
+        org.springframework.web: INFO
+        org.springframework.security: INFO
+        com.finastra: DEBUG
+
+ffdcapi:
+    baseUrl: https://api.fusionfabric.cloud
+    loginUrl: ${ffdcapi.baseUrl}/login/v1
+
+spring:
+    security:
+        oauth2:
+            client:
+                registration:
+                    finastra:
+                        clientId: client-id
+                        clientSecret: client-secret
+                        redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+                        authorization-grant-type: authorization_code
+                        scope: openid
+                provider:
+                    finastra:
+                        authorization-uri: ${ffdcapi.loginUrl}/sandbox/oidc/authorize
+                        token-uri: ${ffdcapi.loginUrl}/sandbox/oidc/token
+                        user-info-uri: Finastra's user info endpoint
+                        user-name-attribute: name
+
